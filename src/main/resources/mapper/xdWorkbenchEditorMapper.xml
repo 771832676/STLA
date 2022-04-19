@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdWorkbenchEditorMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdWorkbenchEditor">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="element_id" jdbcType="INTEGER" property="elementId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="sorting" jdbcType="INTEGER" property="sorting" />
+    <result column="is_origin" jdbcType="INTEGER" property="isOrigin" />
+    <result column="is_caption" jdbcType="INTEGER" property="isCaption" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="expression_id" jdbcType="INTEGER" property="expressionId" />
+    <result column="expression_value" jdbcType="VARCHAR" property="expressionValue" />
+    <result column="action_id" jdbcType="VARCHAR" property="actionId" />
+    <result column="action_value" jdbcType="VARCHAR" property="actionValue" />
+    <result column="action_ids" jdbcType="VARCHAR" property="actionIds" />
+    <result column="action_values" jdbcType="VARCHAR" property="actionValues" />
+    <result column="setting_id" jdbcType="INTEGER" property="settingId" />
+    <result column="setting_url" jdbcType="VARCHAR" property="settingUrl" />
+    <result column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="audio_id" jdbcType="INTEGER" property="audioId" />
+    <result column="audio_url" jdbcType="VARCHAR" property="audioUrl" />
+    <result column="fig_id" jdbcType="INTEGER" property="figId" />
+    <result column="fig_url" jdbcType="VARCHAR" property="figUrl" />
+    <result column="setting_name" jdbcType="VARCHAR" property="settingName" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="audio_name" jdbcType="VARCHAR" property="audioName" />
+    <result column="fig_name" jdbcType="VARCHAR" property="figName" />
+    <result column="delay" jdbcType="VARCHAR" property="delay" />
+
+    <result column="site" jdbcType="INTEGER" property="site" />
+    <result column="tier" jdbcType="INTEGER" property="tier" />
+    <result column="is_full" jdbcType="INTEGER" property="isFull" />
+    <result column="x_axis" jdbcType="INTEGER" property="xAxis" />
+    <result column="y_axis" jdbcType="INTEGER" property="yAxis" />
+    <result column="w_axis" jdbcType="INTEGER" property="wAxis" />
+    <result column="h_axis" jdbcType="INTEGER" property="hAxis" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, element_id, type, sorting, is_origin,is_caption, text, expression_id, expression_value,
+    action_id, action_value,action_ids, action_values, setting_id, setting_url,setting_name, video_id, video_url,video_name, audio_id,
+    audio_url,audio_name, fig_id, fig_url, fig_name,delay,site,tier,is_full,x_axis,y_axis,w_axis,h_axis
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_workbench_editor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKeyList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    * ,
+    (select s.name FROM xd_resource_setting s WHERE s.id = setting_id) setting_name,
+    (select s.name FROM xd_resource_setting s WHERE s.id = video_id) video_name,
+    (select s.name FROM xd_resource_setting s WHERE s.id = audio_id) audio_name,
+    (select s.name FROM xd_resource_setting s WHERE s.id = fig_id) fig_name
+    from xd_workbench_editor
+    where element_id = #{id,jdbcType=INTEGER}
+    order by sorting
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_workbench_editor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimaryKeyEleId" parameterType="java.lang.Integer">
+    delete from xd_workbench_editor
+    where element_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.xdWorkbenchEditor">
+    insert into xd_workbench_editor (id, element_id, type, 
+      sorting, is_caption, text, 
+      expression_id, expression_value, action_ids, 
+      action_values, setting_id, setting_url, 
+      video_id, video_url, audio_id, 
+      audio_url, fig_id, fig_url, 
+      delay)
+    values (#{id,jdbcType=INTEGER}, #{elementId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{sorting,jdbcType=INTEGER}, #{isCaption,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, 
+      #{expressionId,jdbcType=INTEGER}, #{expressionValue,jdbcType=VARCHAR}, #{actionIds,jdbcType=VARCHAR}, 
+      #{actionValues,jdbcType=VARCHAR}, #{settingId,jdbcType=INTEGER}, #{settingUrl,jdbcType=VARCHAR}, 
+      #{videoId,jdbcType=INTEGER}, #{videoUrl,jdbcType=VARCHAR}, #{audioId,jdbcType=INTEGER}, 
+      #{audioUrl,jdbcType=VARCHAR}, #{figId,jdbcType=INTEGER}, #{figUrl,jdbcType=VARCHAR}, 
+      #{delay,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.stla.figure.bean.xdWorkbenchEditor">
+    insert into xd_workbench_editor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="elementId != null">
+        element_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="sorting != null">
+        sorting,
+      </if>
+      <if test="isOrigin != null">
+        is_origin,
+      </if>
+      <if test="isCaption != null">
+        is_caption,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="expressionId != null">
+        expression_id,
+      </if>
+      <if test="expressionValue != null">
+        expression_value,
+      </if>
+      <if test="actionId != null">
+        action_id,
+      </if>
+      <if test="actionValue != null">
+        action_value,
+      </if>
+      <if test="actionIds != null">
+        action_ids,
+      </if>
+      <if test="actionValues != null">
+        action_values,
+      </if>
+      <if test="settingId != null">
+        setting_id,
+      </if>
+      <if test="settingUrl != null">
+        setting_url,
+      </if>
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+      <if test="audioId != null">
+        audio_id,
+      </if>
+      <if test="audioUrl != null">
+        audio_url,
+      </if>
+      <if test="figId != null">
+        fig_id,
+      </if>
+      <if test="figUrl != null">
+        fig_url,
+      </if>
+      <if test="delay != null">
+        delay,
+      </if>
+      <if test="site != null">
+        site,
+      </if>
+      <if test="tier != null">
+        tier,
+      </if>
+      <if test="isFull != null">
+        is_full,
+      </if>
+      <if test="xAxis != null">
+        x_axis,
+      </if>
+      <if test="yAxis != null">
+        y_axis,
+      </if>
+      <if test="wAxis != null">
+        w_axis,
+      </if>
+      <if test="hAxis != null">
+        h_axis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="elementId != null">
+        #{elementId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sorting != null">
+        #{sorting,jdbcType=INTEGER},
+      </if>
+      <if test="isOrigin != null">
+        #{isOrigin,jdbcType=INTEGER},
+      </if>
+      <if test="isCaption != null">
+        #{isCaption,jdbcType=INTEGER},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="expressionId != null">
+        #{expressionId,jdbcType=INTEGER},
+      </if>
+      <if test="expressionValue != null">
+        #{expressionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="actionId != null">
+        #{actionId,jdbcType=VARCHAR},
+      </if>
+      <if test="actionValue != null">
+        #{actionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="actionIds != null">
+        #{actionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="actionValues != null">
+        #{actionValues,jdbcType=VARCHAR},
+      </if>
+      <if test="settingId != null">
+        #{settingId,jdbcType=INTEGER},
+      </if>
+      <if test="settingUrl != null">
+        #{settingUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="videoId != null">
+        #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="audioId != null">
+        #{audioId,jdbcType=INTEGER},
+      </if>
+      <if test="audioUrl != null">
+        #{audioUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="figId != null">
+        #{figId,jdbcType=INTEGER},
+      </if>
+      <if test="figUrl != null">
+        #{figUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delay != null">
+        #{delay,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="tier != null">
+        #{tier,jdbcType=VARCHAR},
+      </if>
+      <if test="isFull != null">
+        #{isFull,jdbcType=VARCHAR},
+      </if>
+      <if test="xAxis != null">
+        #{xAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="yAxis != null">
+        #{yAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="wAxis != null">
+        #{wAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="hAxis != null">
+        #{hAxis,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdWorkbenchEditor">
+    update xd_workbench_editor
+    <set>
+      <if test="elementId != null">
+        element_id = #{elementId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sorting != null">
+        sorting = #{sorting,jdbcType=INTEGER},
+      </if>
+      <if test="isOrigin != null">
+        is_origin = #{isOrigin,jdbcType=INTEGER},
+      </if>
+      <if test="isCaption != null">
+        is_caption = #{isCaption,jdbcType=INTEGER},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="expressionId != null">
+        expression_id = #{expressionId,jdbcType=INTEGER},
+      </if>
+      <if test="expressionValue != null">
+        expression_value = #{expressionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="actionId != null">
+        action_id = #{actionId,jdbcType=VARCHAR},
+      </if>
+      <if test="actionValue != null">
+        action_value = #{actionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="actionIds != null">
+        action_ids = #{actionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="actionValues != null">
+        action_values = #{actionValues,jdbcType=VARCHAR},
+      </if>
+      <if test="settingId != null">
+        setting_id = #{settingId,jdbcType=INTEGER},
+      </if>
+      <if test="settingUrl != null">
+        setting_url = #{settingUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="videoId != null">
+        video_id = #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="videoUrl != null">
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="audioId != null">
+        audio_id = #{audioId,jdbcType=INTEGER},
+      </if>
+      <if test="audioUrl != null">
+        audio_url = #{audioUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="figId != null">
+        fig_id = #{figId,jdbcType=INTEGER},
+      </if>
+      <if test="figUrl != null">
+        fig_url = #{figUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delay != null">
+        delay = #{delay,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="tier != null">
+        tier = #{tier,jdbcType=VARCHAR},
+      </if>
+      <if test="isFull != null">
+        is_full = #{isFull,jdbcType=VARCHAR},
+      </if>
+      <if test="xAxis != null">
+        x_axis = #{xAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="yAxis != null">
+        y_axis = #{yAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="wAxis != null">
+        w_axis = #{wAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="hAxis != null">
+        h_axis = #{hAxis,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdWorkbenchEditor">
+    update xd_workbench_editor
+    set element_id = #{elementId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      sorting = #{sorting,jdbcType=INTEGER},
+      is_caption = #{isCaption,jdbcType=INTEGER},
+      text = #{text,jdbcType=VARCHAR},
+      expression_id = #{expressionId,jdbcType=INTEGER},
+      expression_value = #{expressionValue,jdbcType=VARCHAR},
+      action_ids = #{actionIds,jdbcType=VARCHAR},
+      action_values = #{actionValues,jdbcType=VARCHAR},
+      setting_id = #{settingId,jdbcType=INTEGER},
+      setting_url = #{settingUrl,jdbcType=VARCHAR},
+      video_id = #{videoId,jdbcType=INTEGER},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      audio_id = #{audioId,jdbcType=INTEGER},
+      audio_url = #{audioUrl,jdbcType=VARCHAR},
+      fig_id = #{figId,jdbcType=INTEGER},
+      fig_url = #{figUrl,jdbcType=VARCHAR},
+      delay = #{delay,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdAiMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdAi">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ai_name" jdbcType="VARCHAR" property="aiName" />
+    <result column="ai_photo_url" jdbcType="VARCHAR" property="aiPhotoUrl" />
+    <result column="ai_body_url" jdbcType="VARCHAR" property="aiBodyUrl" />
+    <result column="ai_video_url" jdbcType="VARCHAR" property="aiVideoUrl" />
+    <result column="ai_Introduce" jdbcType="VARCHAR" property="aiIntroduce" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ai_name, ai_photo_url,ai_body_url,ai_video_url, ai_Introduce, is_delete, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_ai
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="aiList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from xd_ai
+    where is_delete = 0
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_ai
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.xdAi">
+    insert into xd_ai (id, ai_name, ai_photo_url, 
+      ai_video_url, ai_Introduce, is_delete, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{aiName,jdbcType=VARCHAR}, #{aiPhotoUrl,jdbcType=VARCHAR}, 
+      #{aiVideoUrl,jdbcType=VARCHAR}, #{aiIntroduce,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stla.figure.bean.xdAi">
+    insert into xd_ai
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="aiName != null">
+        ai_name,
+      </if>
+      <if test="aiPhotoUrl != null">
+        ai_photo_url,
+      </if>
+      <if test="aiBodyUrl != null">
+        ai_body_url,
+      </if>
+      <if test="aiVideoUrl != null">
+        ai_video_url,
+      </if>
+      <if test="aiIntroduce != null">
+        ai_Introduce,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="aiName != null">
+        #{aiName,jdbcType=VARCHAR},
+      </if>
+      <if test="aiPhotoUrl != null">
+        #{aiPhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="aiBodyUrl != null">
+        #{aiBodyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="aiVideoUrl != null">
+        #{aiVideoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="aiIntroduce != null">
+        #{aiIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdAi">
+    update xd_ai
+    <set>
+      <if test="aiName != null">
+        ai_name = #{aiName,jdbcType=VARCHAR},
+      </if>
+      <if test="aiPhotoUrl != null">
+        ai_photo_url = #{aiPhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="aiBodyUrl != null">
+        ai_body_url = #{aiBodyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="aiVideoUrl != null">
+        ai_video_url = #{aiVideoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="aiIntroduce != null">
+        ai_Introduce = #{aiIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdAi">
+    update xd_ai
+    set ai_name = #{aiName,jdbcType=VARCHAR},
+      ai_photo_url = #{aiPhotoUrl,jdbcType=VARCHAR},
+      ai_video_url = #{aiVideoUrl,jdbcType=VARCHAR},
+      ai_Introduce = #{aiIntroduce,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

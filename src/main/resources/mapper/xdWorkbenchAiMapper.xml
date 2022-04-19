@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdWorkbenchAiMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdWorkbenchAi">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="element_id" jdbcType="INTEGER" property="elementId" />
+    <result column="ai_id" jdbcType="INTEGER" property="aiId" />
+    <result column="resource_id" jdbcType="INTEGER" property="resourceId" />
+    <result column="resource_value" jdbcType="VARCHAR" property="resourceValue" />
+    <result column="site" jdbcType="INTEGER" property="site" />
+    <result column="volume" jdbcType="DOUBLE" property="volume" />
+    <result column="speed" jdbcType="DOUBLE" property="speed" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, element_id, ai_id, resource_id, resource_value, site, volume, speed
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_workbench_ai
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKeyList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from xd_workbench_ai
+    where element_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_workbench_ai
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyEleId" parameterType="java.lang.Integer">
+    delete from xd_workbench_ai
+    where element_id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.stla.figure.bean.xdWorkbenchAi">
+    insert into xd_workbench_ai (id, element_id, ai_id, 
+      resource_id, site, volume, 
+      speed)
+    values (#{id,jdbcType=INTEGER}, #{elementId,jdbcType=INTEGER}, #{aiId,jdbcType=INTEGER}, 
+      #{resourceId,jdbcType=INTEGER}, #{site,jdbcType=INTEGER}, #{volume,jdbcType=DOUBLE}, 
+      #{speed,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.stla.figure.bean.xdWorkbenchAi">
+    insert into xd_workbench_ai
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="elementId != null">
+        element_id,
+      </if>
+      <if test="aiId != null">
+        ai_id,
+      </if>
+      <if test="resourceId != null">
+        resource_id,
+      </if>
+      <if test="resourceValue != null">
+        resource_value,
+      </if>
+      <if test="site != null">
+        site,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="speed != null">
+        speed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="elementId != null">
+        #{elementId,jdbcType=INTEGER},
+      </if>
+      <if test="aiId != null">
+        #{aiId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceId != null">
+        #{resourceId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceValue != null">
+        #{resourceValue,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null">
+        #{speed,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdWorkbenchAi">
+    update xd_workbench_ai
+    <set>
+      <if test="elementId != null">
+        element_id = #{elementId,jdbcType=INTEGER},
+      </if>
+      <if test="aiId != null">
+        ai_id = #{aiId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceId != null">
+        resource_id = #{resourceId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceValue != null">
+        resource_value = #{resourceValue,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        site = #{site,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null">
+        speed = #{speed,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdWorkbenchAi">
+    update xd_workbench_ai
+    set element_id = #{elementId,jdbcType=INTEGER},
+      ai_id = #{aiId,jdbcType=INTEGER},
+      resource_id = #{resourceId,jdbcType=INTEGER},
+      site = #{site,jdbcType=INTEGER},
+      volume = #{volume,jdbcType=DOUBLE},
+      speed = #{speed,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

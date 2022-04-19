@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdUserMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="approval_state" jdbcType="INTEGER" property="approvalState" />
+    <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="userRemainingTimeCount" jdbcType="INTEGER" property="userRemainingTimeCount" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_name, real_name, password, mobile, address, email, photo, approval_state, 
+    is_admin, is_delete, update_time, create_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryUserName" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from xd_user
+    where user_name = #{userName,jdbcType=INTEGER}
+  </select>
+
+  <select id="userPageList" parameterType="com.stla.figure.bean.xdUser" resultMap="BaseResultMap">
+    SELECT
+      u.id, u.user_name, u.real_name, u.password,u.mobile, u.address, u.email, u.photo, u.approval_state,
+      u.is_admin, u.is_delete, u.update_time, u.create_time, remark,
+      a.user_remaining_time userRemainingTimeCount  -- 剩余时长统计
+    FROM
+    xd_user u
+    INNER JOIN xd_user_statistics a ON a.user_id = u.id
+     WHERE u.is_delete = 0
+  </select>
+
+  <select id="sumCount" resultType="Map">
+    SELECT
+        sum(a.user_remaining_time)+sum(a.user_use_time) sumCount, -- 平台用户已授权时长统计
+        sum(a.user_use_time) userUseTimeCount, -- 使用时长统计
+        sum(a.user_remaining_time) userRemainingTimeCount, -- 剩余时长统计
+        COUNT(u.id) userCount
+    FROM
+    xd_user u
+    INNER JOIN xd_user_statistics a ON a.user_id = u.id
+    WHERE u.is_delete = 0 AND is_admin = 0
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.xdUser">
+    insert into xd_user (id, user_name, real_name, 
+      password, mobile, address, 
+      email, photo, approval_state, 
+      is_admin, is_delete, update_time, 
+      create_time, remark)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{approvalState,jdbcType=INTEGER}, 
+      #{isAdmin,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.stla.figure.bean.xdUser">
+    insert into xd_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="approvalState != null">
+        approval_state,
+      </if>
+      <if test="isAdmin != null">
+        is_admin,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalState != null">
+        #{approvalState,jdbcType=INTEGER},
+      </if>
+      <if test="isAdmin != null">
+        #{isAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdUser">
+    update xd_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalState != null">
+        approval_state = #{approvalState,jdbcType=INTEGER},
+      </if>
+      <if test="isAdmin != null">
+        is_admin = #{isAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdUser">
+    update xd_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      approval_state = #{approvalState,jdbcType=INTEGER},
+      is_admin = #{isAdmin,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

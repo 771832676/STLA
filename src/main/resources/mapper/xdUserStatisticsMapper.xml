@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdUserStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdUserStatistics">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="opus_all_number" jdbcType="INTEGER" property="opusAllNumber" />
+    <result column="opus_all_time" jdbcType="INTEGER" property="opusAllTime" />
+    <result column="user_remaining_time" jdbcType="INTEGER" property="userRemainingTime" />
+    <result column="user_use_time" jdbcType="INTEGER" property="userUseTime" />
+    <result column="user_start_time" jdbcType="TIMESTAMP" property="userStartTime" />
+    <result column="user_end_time" jdbcType="TIMESTAMP" property="userEndTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, opus_all_number, opus_all_time, user_remaining_time, user_use_time, 
+    user_start_time,user_end_time,create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_user_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKeyUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from xd_user_statistics
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_user_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.xdUserStatistics">
+    insert into xd_user_statistics (id, user_id, opus_all_number, 
+      opus_all_time, user_remaining_time, user_use_time, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{opusAllNumber,jdbcType=INTEGER}, 
+      #{opusAllTime,jdbcType=INTEGER}, #{userRemainingTime,jdbcType=INTEGER}, #{userUseTime,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stla.figure.bean.xdUserStatistics">
+    insert into xd_user_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="opusAllNumber != null">
+        opus_all_number,
+      </if>
+      <if test="opusAllTime != null">
+        opus_all_time,
+      </if>
+      <if test="userRemainingTime != null">
+        user_remaining_time,
+      </if>
+      <if test="userUseTime != null">
+        user_use_time,
+      </if>
+      <if test="userStartTime != null">
+        user_start_time,
+      </if>
+      <if test="userEndTime != null">
+        user_end_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="opusAllNumber != null">
+        #{opusAllNumber,jdbcType=INTEGER},
+      </if>
+      <if test="opusAllTime != null">
+        #{opusAllTime,jdbcType=INTEGER},
+      </if>
+      <if test="userRemainingTime != null">
+        #{userRemainingTime,jdbcType=INTEGER},
+      </if>
+      <if test="userUseTime != null">
+        #{userUseTime,jdbcType=INTEGER},
+      </if>
+      <if test="userStartTime != null">
+        #{userStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEndTime != null">
+        #{userEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdUserStatistics">
+    update xd_user_statistics
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="opusAllNumber != null">
+        opus_all_number = #{opusAllNumber,jdbcType=INTEGER},
+      </if>
+      <if test="opusAllTime != null">
+        opus_all_time = #{opusAllTime,jdbcType=INTEGER},
+      </if>
+      <if test="userRemainingTime != null">
+        user_remaining_time = #{userRemainingTime,jdbcType=INTEGER},
+      </if>
+      <if test="userUseTime != null">
+        user_use_time = #{userUseTime,jdbcType=INTEGER},
+      </if>
+      <if test="userStartTime != null">
+        user_start_time = #{userStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEndTime != null">
+        user_end_time = #{userEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="updRemainingTime" parameterType="com.stla.figure.bean.xdUserStatistics">
+    update xd_user_statistics
+    <set>
+      <if test="userRemainingTime != null">
+        user_remaining_time = #{userRemainingTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdUserStatistics">
+    update xd_user_statistics
+    set user_id = #{userId,jdbcType=INTEGER},
+      opus_all_number = #{opusAllNumber,jdbcType=INTEGER},
+      opus_all_time = #{opusAllTime,jdbcType=INTEGER},
+      user_remaining_time = #{userRemainingTime,jdbcType=INTEGER},
+      user_use_time = #{userUseTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

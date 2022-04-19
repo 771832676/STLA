@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdAiLogMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdAiLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="data" jdbcType="VARCHAR" property="data" />
+    <result column="returns" jdbcType="VARCHAR" property="returns" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, data, returns, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_ai_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="loge" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from xd_ai_log
+    where 1=1 order by create_time DESC LIMIT 10
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_ai_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.xdAiLog">
+    insert into xd_ai_log (id, url, data, 
+      returns, create_time)
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR}, 
+      #{returns,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stla.figure.bean.xdAiLog">
+    insert into xd_ai_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="data != null">
+        data,
+      </if>
+      <if test="returns != null">
+        returns,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null">
+        #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="returns != null">
+        #{returns,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdAiLog">
+    update xd_ai_log
+    <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null">
+        data = #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="returns != null">
+        returns = #{returns,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdAiLog">
+    update xd_ai_log
+    set url = #{url,jdbcType=VARCHAR},
+      data = #{data,jdbcType=VARCHAR},
+      returns = #{returns,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

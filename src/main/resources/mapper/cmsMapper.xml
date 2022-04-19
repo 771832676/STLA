@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.cmsMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.cms">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="site_code" jdbcType="VARCHAR" property="siteCode" />
+    <result column="site_name" jdbcType="VARCHAR" property="siteName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, site_code, site_name, type, title, content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cms
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="cmsList" parameterType="com.stla.figure.bean.cms" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms
+    where 1=1
+    <if test="siteCode != null">
+      AND site_code = #{siteCode,jdbcType=VARCHAR}
+    </if>
+    <if test="siteName != null">
+      AND site_name = #{siteName,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null">
+      AND type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="title != null">
+      AND title = #{title,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cms
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.cms">
+    insert into cms (id, site_code, site_name, 
+      type, title, content)
+    values (#{id,jdbcType=INTEGER}, #{siteCode,jdbcType=VARCHAR}, #{siteName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.stla.figure.bean.cms">
+    insert into cms
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="siteCode != null">
+        site_code,
+      </if>
+      <if test="siteName != null">
+        site_name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="siteCode != null">
+        #{siteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="siteName != null">
+        #{siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.cms">
+    update cms
+    <set>
+      <if test="siteCode != null">
+        site_code = #{siteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="siteName != null">
+        site_name = #{siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.cms">
+    update cms
+    set site_code = #{siteCode,jdbcType=VARCHAR},
+      site_name = #{siteName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

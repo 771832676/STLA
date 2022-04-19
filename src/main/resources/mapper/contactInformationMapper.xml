@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.contactInformationMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.contactInformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="demand_content" jdbcType="VARCHAR" property="demandContent" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, org_name, phone, mail, post, demand_content,create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contact_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="contactsList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from contact_information
+    where
+      1=1 GROUP BY create_time DESC;
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contact_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.contactInformation">
+    insert into contact_information (id, org_name, phone, 
+      mail, post, demand_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{demandContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.stla.figure.bean.contactInformation">
+    insert into contact_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="mail != null">
+        mail,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="demandContent != null">
+        demand_content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="demandContent != null">
+        #{demandContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.contactInformation">
+    update contact_information
+    <set>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="demandContent != null">
+        demand_content = #{demandContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.contactInformation">
+    update contact_information
+    set org_name = #{orgName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      demand_content = #{demandContent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

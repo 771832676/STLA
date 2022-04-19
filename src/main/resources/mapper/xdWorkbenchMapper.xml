@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stla.figure.dao.xdWorkbenchMapper">
+  <resultMap id="BaseResultMap" type="com.stla.figure.bean.xdWorkbench">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="screen" jdbcType="VARCHAR" property="screen" />
+    <result column="setting_id" jdbcType="INTEGER" property="settingId" />
+    <result column="setting_url" jdbcType="VARCHAR" property="settingUrl" />
+    <result column="site" jdbcType="INTEGER" property="site" />
+    <result column="hosts" jdbcType="INTEGER" property="hosts" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, screen, setting_id, setting_url, site, hosts
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xd_workbench
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xd_workbench
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stla.figure.bean.xdWorkbench">
+    insert into xd_workbench (id, screen, setting_id, 
+      setting_url, site, hosts
+      )
+    values (#{id,jdbcType=INTEGER}, #{screen,jdbcType=VARCHAR}, #{settingId,jdbcType=INTEGER}, 
+      #{settingUrl,jdbcType=VARCHAR}, #{site,jdbcType=INTEGER}, #{hosts,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.stla.figure.bean.xdWorkbench">
+    insert into xd_workbench
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="screen != null">
+        screen,
+      </if>
+      <if test="settingId != null">
+        setting_id,
+      </if>
+      <if test="settingUrl != null">
+        setting_url,
+      </if>
+      <if test="site != null">
+        site,
+      </if>
+      <if test="hosts != null">
+        hosts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="screen != null">
+        #{screen,jdbcType=VARCHAR},
+      </if>
+      <if test="settingId != null">
+        #{settingId,jdbcType=INTEGER},
+      </if>
+      <if test="settingUrl != null">
+        #{settingUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=INTEGER},
+      </if>
+      <if test="hosts != null">
+        #{hosts,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stla.figure.bean.xdWorkbench">
+    update xd_workbench
+    <set>
+      <if test="screen != null">
+        screen = #{screen,jdbcType=VARCHAR},
+      </if>
+      <if test="settingId != null">
+        setting_id = #{settingId,jdbcType=INTEGER},
+      </if>
+      <if test="settingUrl != null">
+        setting_url = #{settingUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        site = #{site,jdbcType=INTEGER},
+      </if>
+      <if test="hosts != null">
+        hosts = #{hosts,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stla.figure.bean.xdWorkbench">
+    update xd_workbench
+    set screen = #{screen,jdbcType=VARCHAR},
+      setting_id = #{settingId,jdbcType=INTEGER},
+      setting_url = #{settingUrl,jdbcType=VARCHAR},
+      site = #{site,jdbcType=INTEGER},
+      hosts = #{hosts,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
